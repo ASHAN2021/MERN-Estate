@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import UserRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
@@ -20,4 +21,6 @@ app.use(express.json());
 
 app.listen(300,()=>{
     console.log("server is up and running on port 3000!!!")
-})
+});
+
+app.use('/user',UserRoutes);
