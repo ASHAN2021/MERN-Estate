@@ -1,13 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { signInStart,signInSuccess,signInFailure } from "../redux/user/UserSlice.js";
 
 export default function SignIn() {
   const [fromData,setfromData] = useState({});
-  const [Error,setError] = useState(null);
-  const [loading,setloading] =useState(false);
+  const {loading,error} = useSelector((state)=>state.user);
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
   const handlechange = (e)=>{
       setfromData({
         ...fromData,
@@ -16,8 +18,8 @@ export default function SignIn() {
   };
   const handlesubmit = async (e)=>{
         e.preventDefault();
-        try {
-          setloading(true);
+        try {  
+          dispatch(signInStart());
         const res = await fetch('/api/auth/signin',
           {
             method:'POST',
@@ -29,16 +31,13 @@ export default function SignIn() {
         );
         const data = await res.json();
         if(data.sucess === false){
-          setError(data.message);
-          setloading(false);
+          dispatch(signInFailure(data.message))
           return;
         }
-        setloading(false);
-        setError(null);
+        dispatch(signInSuccess(data))
         Navigate('/');
         } catch (error) {
-          setloading(false);
-          setError(error.message);
+          dispatch(signInFailure(error.message))
         }
         
   }
@@ -63,7 +62,7 @@ export default function SignIn() {
           <span className="text-blue-700">Sign up</span>
         </Link>
       </div>
-      {Error && <p className="text-red-500 mt-5">{Error}</p>}
+      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   )
 }
