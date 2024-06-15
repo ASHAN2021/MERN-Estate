@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart,signInSuccess,signInFailure } from "../redux/user/UserSlice.js";
+import OAuth from "../compoents/OAuth.jsx";
 
 export default function SignIn() {
   const [fromData,setfromData] = useState({});
@@ -55,12 +56,14 @@ export default function SignIn() {
         <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
           {loading ? 'Loading...':'Sign In'}
         </button>
+        <OAuth/>
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don't Have an Account ?</p>
         <Link to='/SignUp'>
           <span className="text-blue-700">Sign up</span>
         </Link>
+        
       </div>
       {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
