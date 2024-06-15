@@ -17,9 +17,9 @@ const UserSchema = new mongoose.Schema({
         required:true,
     },
     avatar:{
-        type:String,
-        default:'https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/circle-icon.png'
-    }
+        type: String,
+        
+      },
 },{timestamps:true});
 
 const User = mongoose.model("user",UserSchema);
